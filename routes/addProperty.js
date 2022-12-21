@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
         const views = parseInt(Math.random() * 30);
         const daysLeft = parseInt(Math.random() * 50);
 
-        console.log(req.body);
+        let user = await User.findOne({ mail: req.body.email });
         const add_property = await Property.create({
             ppdId: ppd_id, 
             image: '',
@@ -20,17 +20,18 @@ router.post('/', async (req, res) => {
             mobile: req.body.mobile,
             area: req.body.area, 
             views: views,
-            daysLeft: daysLeft
+            daysLeft: daysLeft,
+            userId:user._id
         });
-        // adding the propery into user properties
-        let user = await User.findOne({ mail: req.body.email });
-        console.log(user);
+        
+        
+        // Adding the property into user properties
         user.properties.push(add_property)
         await user.save()
 
         res.status(200).json({
             status: "Success",
-            add_property
+            property:add_property
         })
 
     } catch (e) {

@@ -9,7 +9,7 @@ router.post('/', async(req, res) => {
     try {
         const { email, password } = req.body;
         console.log("body is", req.body);
-        // var findQueryinDB= false;
+        
         const findQueryinDB = await User.findOne({ email: req.body.email });
         console.log("id", findQueryinDB);
         if (!findQueryinDB) {
