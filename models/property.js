@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const propertySchema = new Schema({
     
     //added more models by chavva
-    propertyType: { required: true, type: String },
+    propertyType: {  type: String },
     negotiable: { type: String },
     price: { type: String },
     ownership: { type: String },
@@ -14,9 +14,9 @@ const propertySchema = new Schema({
     propertyAge: { type: String },
     propertyDescription: { type: String },
     bankLoan: { type: String },
-    length: { required: true, type: String },
-    breath: { required: true, type: String },
-    totalArea: { required: true, type: Number },
+    length: { type: String },
+    breath: {  type: String },
+    totalArea: { type: Number },
     areaUnit: { type: String },
     noOfBHK: { type: String },
     noOfFloor: { type: String },
@@ -35,7 +35,7 @@ const propertySchema = new Schema({
     featuredPackage: { type: String },
     ppdPackage: { type: String },
 
-    email: { required: true, type: String },
+    email: { type: String },
     city: { type: String },
     area: { type: String },
     pincode: { type: String },
@@ -43,15 +43,18 @@ const propertySchema = new Schema({
     landmark: { type: String },
     latitude: { type: String },
     longitude: { type: String },
-    PPDId: { required: true, type: String },
-    Views: { required: true, type: String },
-    DaysLeft: { required: true, type: String },
+    ppdId: { required: true, type: String },
+    views: { required: true, type: String },
+    daysLeft: { required: true, type: String },
 
     image: { type: String },
     status: { type: String, default: "Unsold" },
-    userid: { type: String },
+    userid: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }
 
-})
+}, {timestamps:true})
 
 const Property = mongoose.model('property', propertySchema);
 
