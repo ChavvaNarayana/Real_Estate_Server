@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const Property = require('../models/property')
+const User = require('../models/user')
 
 router.post('/', async (req, res) => {
     // res.send('post')
@@ -11,15 +13,20 @@ router.post('/', async (req, res) => {
         const daysLeft = parseInt(Math.random() * 50);
 
         console.log(req.body);
-        const add_property = await AddProperty.create({
+        const add_property = await Property.create({
             ppdId: ppd_id, 
             image: '',
-            property: req.body.values.property, 
-            contact: req.body.values.mobile,
-            area: req.body.values.area, 
+            propertyType: req.body.property, 
+            mobile: req.body.mobile,
+            area: req.body.area, 
             views: views,
             daysLeft: daysLeft
         });
+        // adding the propery into user properties
+        let user = await User.findOne({ mail: req.body.email });
+        console.log(user);
+        user.properties.push(add_property)
+        await user.save()
 
         res.status(200).json({
             status: "Success",
