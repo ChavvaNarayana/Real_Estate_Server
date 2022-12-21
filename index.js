@@ -12,7 +12,7 @@ const PORT = 3000;
 //added mongodb connection by chavva
 
 mongoose.connect(
-  "mongodb+srv://mainproject:mainproject@cluster0.mv15zyy.mongodb.net/?retryWrites=true&w=majority",
+ dbUrl ,
   () => {
     console.log("successfully connected to db");
   },
