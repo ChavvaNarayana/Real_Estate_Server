@@ -8,7 +8,18 @@ const app = express();
 const mongoose = require('mongoose')
 const dbUrl = process.env.DB_URL || 'mongodb://localhost/real-estate';
 const PORT = 3000;
-mongoose.connect(dbUrl, () => console.log('Connected to database'))
+
+//added mongodb connection by chavva
+
+mongoose.connect(
+  "mongodb+srv://mainproject:mainproject@cluster0.mv15zyy.mongodb.net/?retryWrites=true&w=majority",
+  () => {
+    console.log("successfully connected to db");
+  },
+  (err) => {
+    console.log(err);
+  }
+);
 
 const bodyParser = require('body-parser')
 
