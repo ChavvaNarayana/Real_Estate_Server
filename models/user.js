@@ -8,7 +8,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    ppid: String,
+    ppdId: String,
     mail: {
         type: String,
         required: true
