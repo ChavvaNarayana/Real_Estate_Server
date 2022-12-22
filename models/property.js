@@ -49,7 +49,7 @@ const propertySchema = new Schema({
 
     image: { type: String },
     status: { type: String, default: "Unsold" },
-    userid: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'user'
     }
