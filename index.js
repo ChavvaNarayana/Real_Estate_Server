@@ -7,10 +7,17 @@ const indexRoutes = require('./routes/index')
 const app = express();
 const mongoose = require('mongoose')
 const dbUrl = process.env.DB_URL || 'mongodb://localhost/real-estate';
-const PORT = 3000;
+const PORT = 5000;
 
 //added mongodb connection by chavva
+const cors = require('cors')
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions))
 mongoose.connect(
  dbUrl ,
   () => {
@@ -20,12 +27,9 @@ mongoose.connect(
     console.log(err);
   }
 );
+app.use(express.json());
 
-const bodyParser = require('body-parser')
-
-app.use(bodyParser.json());
-
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 app.use('/add', addPropertyRoutes)
 
