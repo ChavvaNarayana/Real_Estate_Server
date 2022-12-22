@@ -5,19 +5,18 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 
-router.post('/', async(req, res) => {
+router.post('/', async (req, res) => {
+    const { email, password } = req.body.data;
+    if (!email || !password) {
+        res.status(400).json({
+            status: "Failed",
+            message: "Email or Password is missing"
+        })
+    }
     try {
-        const { email, password } = req.body;
-        console.log("body is", req.body);
+        const findQueryinDB = await User.findOne({ mail: email });
         
-        const findQueryinDB = await User.findOne({ email: req.body.email });
-        console.log("id", findQueryinDB);
-        if (!findQueryinDB) {
-            console.log('user not found')
-        }
-        console.log('check it')
         if (findQueryinDB) {
-            console.log('find')
             passwordValidation(
                 findQueryinDB,
                 password,
@@ -28,16 +27,13 @@ router.post('/', async(req, res) => {
             );
         } else {
             return res.status(403).json({
-                status: "not registerd",
-                message: "user isn't register",
-
+                status: "Error",
+                message: "User isn't register"
             });
-
-
         }
     } catch (error) {
         console.log(error.message)
-        res.json({
+        res.status(400).json({
             status: "invalid user",
             message: error
 
@@ -48,30 +44,28 @@ router.post('/', async(req, res) => {
 
 
 const passwordValidation = (findQueryinDB, passwordEnteredByUser, hash, res, email, id) => {
-    console.log("findQueryinDB :", findQueryinDB)
     bcrypt.compare(passwordEnteredByUser, hash, function (error, isMatch) {
-        console.log(passwordEnteredByUser, hash, isMatch);
         if (error) {
             res.status(400).json({
-                message: error,
-                status: "User already register"
+                message: error
             });
         } else if (!isMatch) {
             res.status(400).json({
-                status: "password mismatch"
+                status: "Password mismatch"
             }
             );
         } else {
             console.log("In else part");
-            // const id = new Date().getDate();
             const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
                 expiresIn: "30d",
             });
             res.status(200).json({
-                status: "Success",
+                
                 token: token,
-                UserName: findQueryinDB.UserName,
-                UserID: findQueryinDB.UserID
+                username: findQueryinDB.name,
+                ppdId: findQueryinDB.ppdId,
+                email: findQueryinDB.mail,
+                
             });
         }
     });
