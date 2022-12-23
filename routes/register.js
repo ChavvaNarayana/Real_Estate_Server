@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ message: "Please enter all fields" });
   }
   await User.find({ mail: email }).then((user) => {
-    if (user.length > 0) return res.status(400).json({ msg: "User already exists" });
+    if (user.length > 0) return res.status(409).json({ msg: "User already exists" });
   })
   const ppdId = Math.floor((Math.random() * 99)) + "PPD" + Math.floor((Math.random() * 999) + 999);
   const newUser = new User({
