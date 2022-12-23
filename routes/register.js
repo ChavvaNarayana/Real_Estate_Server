@@ -4,9 +4,8 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-router.post('/', async (req, res) => {
+router.post('/Signup', async (req, res) => {
   const { username, email, password } = req.body.data;
-  console.log(req.body.data)
   if (!username || !email || !password) {
     return res.status(400).json({ message: "Please enter all fields" });
   }

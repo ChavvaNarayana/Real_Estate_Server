@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 
-router.post('/', async (req, res) => {
+router.post('/Signin', async (req, res) => {
     const { email, password } = req.body.data;
     if (!email || !password) {
         res.status(400).json({
