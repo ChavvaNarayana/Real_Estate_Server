@@ -50,8 +50,8 @@ const passwordValidation = (findQueryinDB, passwordEnteredByUser, hash, res, ema
                 message: error
             });
         } else if (!isMatch) {
-            res.status(400).json({
-                status: "Password mismatch"
+            res.status(422).json({
+                status: "Password Mismatch"
             }
             );
         } else {
