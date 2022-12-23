@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 
 router.post('/', async (req, res) => {
   const { username, email, password } = req.body.data;
-  console.log(req.body.data)
   if (!username || !email || !password) {
     return res.status(400).json({ message: "Please enter all fields" });
   }
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
           if (err) throw err;
           res.json({
             token,
-           
+
             username: newUser.name,
             email: newUser.mail,
             ppdId:newUser.ppdId
