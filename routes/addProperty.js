@@ -3,11 +3,8 @@ const Property = require('../models/property')
 const User = require('../models/user')
 
 router.post('/', async (req, res) => {
-    // res.send('post')
-    // logic for adding property
-
+    
     try {
-        console.log("this is req.body" + req.body + "Checkthis")
         const ppd_id = "PPD" + Math.floor((Math.random() * 9999) + 999);
         const views = parseInt(Math.random() * 30);
         const daysLeft = parseInt(Math.random() * 50);
@@ -15,20 +12,17 @@ router.post('/', async (req, res) => {
         let user = await User.findOne({ mail: req.body.email });
         const add_property = await Property.create({
             ppdId: ppd_id, 
-            image: '',
-            propertyType: req.body.property, 
-            mobile: req.body.mobile,
-            area: req.body.area, 
+            
+            ...req.body,
             views: views,
             daysLeft: daysLeft,
             userId:user._id
         });
-        
-        
+    
         // Adding the property into user properties
         user.properties.push(add_property)
         await user.save()
-
+        console.log(add_property)
         res.status(200).json({
             status: "Success",
             property:add_property
